@@ -6,11 +6,7 @@ from setuptools import Extension, find_packages, setup
 
 
 def setup_version() -> str:
-    version_prefix = "1.0"
-    version = os.environ.get("BUILD_NUMBER") if bool(os.environ.get("TEAMCITY_VERSION")) else "SNAPSHOT"
-    # return version_prefix + "." + version
-    return "1.0.7"
-
+    return "1.0.7"  # Also presented in pyproject.toml
 
 
 extensions = [
