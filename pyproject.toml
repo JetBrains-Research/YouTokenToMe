@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "youtokentome"
-version = "1.0.7"  # Also presented in setup.py
+version = "1.0.8"  # Also presented in setup.py
 description = "FL version of YTTM"
 license = "MIT"
 authors = ["Ivan Belonogov"]
@@ -18,7 +18,10 @@ classifiers = [
     "Programming Language :: Cython",
     "Programming Language :: C++",
 ]
-build = "build.py"
+
+[tool.poetry.build]
+script = "build.py"
+generate-setup-file = true
 
 [tool.poetry.dependencies]
 python = "^3.6"
