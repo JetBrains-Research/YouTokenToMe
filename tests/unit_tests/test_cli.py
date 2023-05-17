@@ -17,6 +17,8 @@ from utils_for_testing import (
 def test_bos_eos_reverse():
     generate_artifacts()
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={BASE_MODEL_FILE}",
@@ -28,6 +30,8 @@ def test_bos_eos_reverse():
     file_starts_with("log.txt", "<BOS>")
 
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={BASE_MODEL_FILE}",
@@ -40,6 +44,8 @@ def test_bos_eos_reverse():
     file_starts_with("log.txt", "<EOS>")
 
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={BASE_MODEL_FILE}",
@@ -51,6 +57,8 @@ def test_bos_eos_reverse():
     file_starts_with("log.txt", "2")
 
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={BASE_MODEL_FILE}",
@@ -79,6 +87,8 @@ def test_interactive_mode():
 def test_multithreading():
     generate_artifacts()
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={BASE_MODEL_FILE}",
@@ -91,6 +101,8 @@ def test_multithreading():
 def test_renaming():
     generate_artifacts()
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={RENAME_ID_MODEL_FILE}",
@@ -102,6 +114,8 @@ def test_renaming():
     file_starts_with("log.txt", "29")
 
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={RENAME_ID_MODEL_FILE}",
@@ -121,6 +135,8 @@ def test_renaming_unknown():
         fout.write("z")
 
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={RENAME_ID_MODEL_FILE}",
@@ -143,8 +159,8 @@ def test_renaming_unknown():
 
 def test_vocab():
     generate_artifacts()
-    run(["yttm", "vocab", f"--model={BASE_MODEL_FILE}"], check=True)
-    run(["yttm", "vocab", f"--model={BASE_MODEL_FILE}", "--verbose"], check=True)
+    run(["poetry", "run", "yttm", "vocab", f"--model={BASE_MODEL_FILE}"], check=True)
+    run(["poetry", "run", "yttm", "vocab", f"--model={BASE_MODEL_FILE}", "--verbose"], check=True)
 
 
 def test_decode():
@@ -153,7 +169,7 @@ def test_decode():
 
     with open("decode_text_in.txt", "w") as fout:
         fout.write(text_in)
-    cmd_args = ["yttm", "encode", f"--model={BASE_MODEL_FILE}", "--output_type=id"]
+    cmd_args = ["poetry", "run", "yttm", "encode", f"--model={BASE_MODEL_FILE}", "--output_type=id"]
     run(
         cmd_args,
         stdin=open("decode_text_in.txt", "r"),
@@ -161,7 +177,7 @@ def test_decode():
         check=True,
     )
 
-    cmd_args = ["yttm", "decode", f"--model={BASE_MODEL_FILE}"]
+    cmd_args = ["poetry", "run", "yttm", "decode", f"--model={BASE_MODEL_FILE}"]
     run(
         cmd_args,
         stdin=open("decode_id.txt", "r"),
@@ -176,6 +192,8 @@ def test_decode():
     assert text_in == text_out[:-1]
 
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "encode",
         f"--model={BASE_MODEL_FILE}",
@@ -191,6 +209,8 @@ def test_decode():
     )
 
     cmd_args = [
+        "poetry",
+        "run",
         "yttm",
         "decode",
         f"--model={BASE_MODEL_FILE}",

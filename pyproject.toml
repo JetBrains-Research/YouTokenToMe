@@ -35,7 +35,10 @@ optional = true
 
 [tool.poetry.group.test.dependencies]
 pytest = ">=4.3.1"
+tokenizers = "*"
 
+[tool.poetry.scripts]
+yttm = "youtokentome.yttm_cli:main"
 
 [build-system]
 requires = ["poetry-core", "Cython>=0.29.21", "setuptools>=32.0.0"]
