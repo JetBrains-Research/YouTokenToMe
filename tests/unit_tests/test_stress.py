@@ -4,7 +4,12 @@ from subprocess import run
 import pytest
 
 
+tests_compiled = False
+
 def compile_test():
+    global tests_compiled
+    if tests_compiled:
+        return
     build_files = ["bpe.cpp", "utils.cpp", "utf8.cpp"]
     files = ["../../youtokentome/cpp/" + file_name for file_name in build_files]
     files.append("stress_test.cpp")
@@ -15,32 +20,33 @@ def compile_test():
         "g++",
         *files,
         "-o",
-        "test",
+        "stress",
         "-std=c++11",
         "-pthread",
+        "-Og",
         "-D_GLIBCXX_DEBUG",
+        "-fno-omit-frame-pointer -fsanitize=address -fsanitize=leak -fsanitize=undefined",
         "-DDETERMINISTIC_QUEUE",
     ]
 
     command = " ".join(command)
     print("command:", command)
     run(command, check=True, shell=True)
+    tests_compiled = True
 
 
 # noinspection PyUnresolvedReferences
 @pytest.mark.skip(reason="broken after new implementation")
 def test_stress():
     compile_test()
-    run(["./test", "base", "1000"], check=True)
-    os.remove("test")
+    run(["./stress", "base", "1000"], check=True)
 
 
 # noinspection PyUnresolvedReferences
 @pytest.mark.skip(reason="broken after new implementation")
 def test_manual():
     compile_test()
-    run(["./test", "manual"], check=True)
-    os.remove("test")
+    run(["./stress", "manual"], check=True)
     os.remove("remove_it.txt")
 
 
@@ -48,6 +54,5 @@ def test_manual():
 @pytest.mark.skip(reason="broken after new implementation")
 def test_parallel():
     compile_test()
-    run(["./test", "parallel", "50"], check=True)
-    os.remove("test")
+    run(["./stress", "parallel", "50"], check=True)
     os.remove("remove_it.txt")
