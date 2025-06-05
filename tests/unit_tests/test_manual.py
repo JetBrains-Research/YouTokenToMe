@@ -39,7 +39,7 @@ def test_english():
         chronocoulometry
         """
 
-    test_text = "chronocline synchroscope "
+    test_text = "chronocline synchroscope \n"
 
     TRAIN_DATA_PATH = "train_data.txt"
     MODEL_PATH = "model.yttm"
@@ -48,7 +48,7 @@ def test_english():
     model = yttm.BPE.train(TRAIN_DATA_PATH, MODEL_PATH, 200, n_threads=1)
     tokenized_text = model.encode([test_text], output_type=yttm.OutputType.SUBWORD)
     expected_result = [
-        ["\n", "chrono", "c", "l", "i", "n", "e", " ", "s", "y", "n", "ch", "r", "o", "s", "co", "p", "e", " "]
+        ["chrono", "c", "l", "i", "n", "e", " ", "s", "y", "n", "ch", "r", "o", "s", "co", "p", "e", " ", "\n"]
     ]
     assert tokenized_text == expected_result
     print(tokenized_text)
@@ -73,7 +73,7 @@ def test_japanese():
     model = yttm.BPE.train(TRAIN_DATA_PATH, MODEL_PATH, 100)
     tokenized_text = model.encode([test_text], output_type=yttm.OutputType.SUBWORD)
     expected_result = [
-        ["\n", " ", "おばあさん ", "が", "  ", "川", " ", "で", " ", "せ", "ん", " "]
+        [" ", "おばあさん ", "が", "  ", "川", " ", "で", " ", "せ", "ん", " "]
     ]
     assert tokenized_text == expected_result
     print(tokenized_text)
