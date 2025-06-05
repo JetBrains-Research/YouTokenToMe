@@ -7,12 +7,12 @@
 
 namespace vkcom {
 
-void SpecialTokens::dump(std::ofstream &fout) {
+void SpecialTokens::dump(std::ostream &fout) {
   fout << unk_id << " " << pad_id << " " << bos_id << " " << eos_id
        << std::endl;
 }
 
-void SpecialTokens::load(std::ifstream &fin) {
+void SpecialTokens::load(std::istream &fin) {
   fin >> unk_id >> pad_id >> bos_id >> eos_id;
 }
 
@@ -65,29 +65,34 @@ void BPEState::dump(const std::string &file_name) {
   fout.close();
 }
 
-Status BPEState::load(const std::string &file_name) {
+Status BPEState::load(std::istream &stream)
+{
   char2id.clear();
   rules.clear();
-  std::ifstream fin(file_name, std::ios::in);
-  if (fin.fail()) {
-    return Status(1, "Can not open file with model: " + file_name);
-  }
   int n, m;
-  fin >> n >> m;
+  stream >> n >> m;
   for (int i = 0; i < n; i++) {
     uint32_t inner_id;
     uint32_t utf32_id;
-    fin >> inner_id >> utf32_id;
+    stream >> inner_id >> utf32_id;
     char2id[inner_id] = utf32_id;
   }
   for (int i = 0; i < m; i++) {
     uint32_t x, y, z;
-    fin >> x >> y >> z;
+    stream >> x >> y >> z;
     rules.emplace_back(x, y, z);
   }
-  special_tokens.load(fin);
-  fin.close();
+  special_tokens.load(stream);
   return Status();
+}
+
+Status BPEState::load(const std::string &file_name)
+{
+  std::ifstream fin(file_name, std::ios::in);
+  if (fin.fail()) {
+    return Status(1, "Can not open file with model: " + file_name);
+  }
+  return load(fin);
 }
 
 BpeConfig::BpeConfig(double _character_coverage, int _n_threads,

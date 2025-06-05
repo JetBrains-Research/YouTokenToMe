@@ -31,9 +31,9 @@ struct SpecialTokens {
 
   SpecialTokens(int pad_id, int unk_id, int bos_id, int eos_id);
 
-  void dump(std::ofstream &fout);
+  void dump(std::ostream &fout);
 
-  void load(std::ifstream &fin);
+  void load(std::istream &fin);
 
   uint32_t max_id() const;
 
@@ -71,6 +71,7 @@ struct BPEState {
 
   void dump(const std::string &file_name);
 
+  Status load(std::istream &stream);
   Status load(const std::string &file_name);
 };
 
