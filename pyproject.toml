@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "youtokentome"
-version = "1.0.8"
+version = "1.0.9"
 description = "FL version of YTTM"
 license = "MIT"
 authors = ["Ivan Belonogov"]

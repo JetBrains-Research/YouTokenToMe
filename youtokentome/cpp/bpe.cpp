@@ -1539,10 +1539,12 @@ DecodeResult BaseEncoder::encode_sentence(const std::string &sentence_utf8,
 
     auto begin_of_word = std::find_if_not(it_text, text.end(), is_space);
     auto end_of_word = std::find_if(begin_of_word, text.end(), is_space);
+    if (begin_of_word != it_text) {
+      list.emplace_back(bpe_state.char2id.at(SPACE_TOKEN), 0);
+    }
     it_text = end_of_word;
 
     uint32_t new_token_cur = new_tokens_start;
-    list.emplace_back(bpe_state.char2id.at(SPACE_TOKEN), 0);
 
     for (auto it_char_in_word = begin_of_word; it_char_in_word < end_of_word;) {
       if (bpe_state.char2id.count(*it_char_in_word) == 0) {
